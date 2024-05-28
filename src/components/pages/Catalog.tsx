@@ -112,10 +112,6 @@ export const Catalog = () => {
                         <AlignLeft />
                     </div>
                     <div className="flex">
-                        {/* <div className="flex px-4  items-center justify-center bg-background rounded-2xl border-[1px] border-black">
-                            <Filter className="mr-3" />
-                            Фильтры
-                        </div> */}
                         <div className="flex items-center">
                             <Dialog>
                                 <DialogTrigger>
@@ -190,11 +186,6 @@ export const Catalog = () => {
                                                   backgroundImage: `url(${API_URL}/${product.image})`,
                                               }}
                                           >
-                                              {/* <img
-                                            src={`${API_URL}/${product.image}`}
-                                            className="rounded-xl"
-                                            alt=""
-                                        /> */}
                                               <div className="flex w-full px-5 gap-5 absolute right-0 bottom-0 items-end justify-end py-5">
                                                   <ShoppingCart
                                                       color="white"
