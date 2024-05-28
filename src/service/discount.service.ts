@@ -3,6 +3,8 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { API_URL } from "@/lib/api_url";
 import { UserService } from "./user.service";
 
+axios.defaults.headers.common['ngrok-skip-browser-warning'] = '69420'
+
 export const DiscountService = {
     async getAll() {
         const { data } = await axios.get<IDiscount[]>(`${API_URL}/discount`, {
