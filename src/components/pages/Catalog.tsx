@@ -1,10 +1,4 @@
-import {
-    AlignLeft,
-    Filter,
-    Search,
-    ShoppingCart,
-    User,
-} from "lucide-react";
+import { AlignLeft, Filter, Search, ShoppingCart, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IProduct } from "../../interfaces/product.interface";
 import { ProductService } from "../../service/product.service";
@@ -32,11 +26,13 @@ export const Catalog = () => {
         const data = await ProductService.getAll();
         setProducts(data);
         setAllProducts(data);
+        search(data);
     }
 
-    async function search(products: IProduct[] | undefined) {
+    function search(products: IProduct[] | undefined) {
         if (products) {
             let filteredProducts = [...products];
+            console.log(category, nameSearch, max);
             if (category) {
                 if (category == "Все") {
                     filteredProducts = [...products];
@@ -95,10 +91,6 @@ export const Catalog = () => {
     useEffect(() => {
         search(allProducts);
     }, [nameSearch, category, max]);
-
-    useEffect(() => {
-        search(allProducts);
-    });
 
     useEffect(() => {
         getProducts();
