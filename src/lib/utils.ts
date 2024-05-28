@@ -19,10 +19,10 @@ export function toCurrency(price: number) {
 export const categories: ICategory[] = [
     {
         id: 1,
-        name: "Игрушки",
+        name: "Игрушка",
     },
     {
         id: 2,
-        name: "Капсулы",
+        name: "Капсула",
     },
 ];

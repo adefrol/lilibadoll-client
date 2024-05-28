@@ -36,12 +36,12 @@ export const Catalog = () => {
 
     async function search(products: IProduct[] | undefined) {
         if (products) {
-            let filteredProducts = products;
+            let filteredProducts = [...products];
             if (category) {
                 if (category == "Все") {
-                    filteredProducts = products;
+                    filteredProducts = [...products];
                 } else {
-                    filteredProducts = products?.filter((product) => {
+                    filteredProducts = filteredProducts.filter((product) => {
                         return product.category.name == category;
                     });
                 }

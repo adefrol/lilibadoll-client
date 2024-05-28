@@ -51,8 +51,8 @@ export const Filters = () => {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="Все">все</SelectItem>
-                            <SelectItem value="Игрушки">игрушки</SelectItem>
-                            <SelectItem value="Капсулы">капсулы</SelectItem>
+                            <SelectItem value="Игрушка">игрушки</SelectItem>
+                            <SelectItem value="Капсула">капсулы</SelectItem>
                         </SelectContent>
                     </Select>
                     <div className="flex justify-between gap-4">
