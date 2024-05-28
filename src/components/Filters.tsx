@@ -14,7 +14,7 @@ import { useNavigate } from "@tanstack/react-router";
 export const Filters = () => {
     const navigate = useNavigate({ from: Route.fullPath });
     const max = Number(localStorage.getItem("max"));
-
+    const searchParams = Route.useSearch();
     const [filters, setFilters] = useState<FilterType>();
 
     function handleParams() {
@@ -30,6 +30,9 @@ export const Filters = () => {
                 <Input
                     type="number"
                     max={max}
+                    defaultValue={
+                        searchParams.max ? searchParams.max : undefined
+                    }
                     placeholder="Максимальная цена"
                     onChange={(e) =>
                         setFilters({
@@ -44,7 +47,13 @@ export const Filters = () => {
                     }
                 >
                     <SelectTrigger>
-                        <SelectValue placeholder={"Категория"}></SelectValue>
+                        <SelectValue
+                            placeholder={
+                                searchParams.category
+                                    ? searchParams.category
+                                    : "Категория"
+                            }
+                        ></SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="Все">все</SelectItem>

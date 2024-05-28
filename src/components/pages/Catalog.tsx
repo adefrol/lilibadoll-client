@@ -137,9 +137,9 @@ export const Catalog = () => {
                                 placeholder="поиск..."
                             />
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center mx-5">
                             <AuthAdmin>
-                                <Link to="/admin">Админ</Link>
+                                <Link to="/admin">Админ-панель</Link>
                             </AuthAdmin>
                         </div>
                         <div
