@@ -109,6 +109,7 @@ export const Admin = () => {
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
+                                variant={activePath == 'products' ? 'default' : 'secondary'}
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "products" },
@@ -123,6 +124,7 @@ export const Admin = () => {
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
+                                variant={activePath == 'discount' ? 'default' : 'secondary'}
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "discount" },
@@ -137,6 +139,7 @@ export const Admin = () => {
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
+                                variant={activePath == 'orders' ? 'default' : 'secondary'}
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "orders" },
@@ -151,6 +154,7 @@ export const Admin = () => {
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
+                                variant={activePath == 'purchases' ? 'default' : 'secondary'}
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "purchases" },

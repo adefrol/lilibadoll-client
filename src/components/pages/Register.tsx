@@ -12,6 +12,7 @@ import { Input } from "../ui/input";
 import { UserService } from "@/service/user.service";
 import { IUser, IUserErrors } from "@/interfaces/user.interface";
 import { Route } from "@/routes/register";
+import { InputMask, useMask } from "@react-input/mask";
 
 const ValidateInput = ({
     htmlFor,
@@ -19,34 +20,61 @@ const ValidateInput = ({
     name,
     error,
     type,
+    mask,
     onChange,
 }: {
     htmlFor: string;
     placeholder: string;
     name: string;
     error: any;
+    mask?: boolean
     type: React.HTMLInputTypeAttribute;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 }) => {
-    return (
-        <div className='flex items-center gap-2'>
-            <p className={`${error ? "text-red-500 w-32" : "w-32"}`}>
-                {error ? error : name}
-            </p>
-            <Input
-                type={type}
-                id={htmlFor}
-                placeholder={placeholder}
-                required
-                onChange={onChange}
-                className={`${error ? "border-[1px] border-red-500" : ""}`}
-            />
-        </div>
-    );
+    if (mask) {
+        return (
+            <div className="flex items-center gap-2">
+                <p className={`${error ? "text-red-500 w-32" : "w-32"} `}>
+                    {error ? error : name}
+                </p>
+                <InputMask
+                    type={type}
+                    id={htmlFor}
+                    placeholder={placeholder}
+                    required
+                    mask='+7 (___) ___-__-__'
+                    replacement={{ _: /\d/ }}
+                    onChange={onChange}
+                    className={`${error ? "border-[1px] border-red-500" : ""} p-2 border border-primary rounded-3xl w-full`}
+                />
+            </div>
+        );
+    } else {
+        return (
+            <div className="flex items-center gap-2">
+                <p className={`${error ? "text-red-500 w-32" : "w-32"}`}>
+                    {error ? error : name}
+                </p>
+                <Input
+                    type={type}
+                    id={htmlFor}
+                    placeholder={placeholder}
+                    required
+                    onChange={onChange}
+                    className={`${error ? "border-[1px] border-red-500" : ""}`}
+                />
+            </div>
+        );
+    }
 };
 
 export const Register = () => {
     const validEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+
+    const phoneMask = useMask({
+        mask: "+7 (___) ___-__-__",
+        replacement: { _: /\d/ },
+    });
 
     const navigate = Route.useNavigate();
 
@@ -146,6 +174,7 @@ export const Register = () => {
                                     name="Номер телефона"
                                     error={undefined}
                                     type="tel"
+                                    mask={true}
                                     placeholder="+79999999999"
                                     onChange={(e) =>
                                         setNewUser({

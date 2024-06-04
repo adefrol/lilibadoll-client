@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IOrder, IOrderPost } from "../interfaces/order.interface";
 import { OrderService } from "../service/order.service";
 import { API_URL } from "@/lib/api_url";
+import { InputMask } from '@react-input/mask'
 
 export const OrderForm = () => {
     const [name, setName] = useState("");
@@ -143,11 +144,13 @@ export const OrderForm = () => {
                                 </div>
                                 <div className="flex items-center justify-center py-2">
                                     <p className="w-[150px]">Номер телефона</p>
-                                    <input
-                                        type="text"
+                                    <InputMask
+                                        type="tel"
                                         onChange={(e) =>
                                             setPhone(e.target.value)
                                         }
+                                        mask='+7 (___) ___-__-__'
+                                        replacement={{_: /\d/}}
                                         required
                                         className="rounded-3xl py-3 px-8 w-[500px] border-[1px] bg-gradient-to-br from-white to-[#efeded9b]"
                                         placeholder="+7 999 999 99 99"
@@ -178,7 +181,7 @@ export const OrderForm = () => {
                                     />
                                 </div>
                                 <div className="flex items-center justify-center py-2">
-                                    <p className="text-center px-6 w-[250px]">
+                                    <p className="w-[150px]">
                                         Прикрепить файл
                                     </p>
                                     <input

@@ -101,7 +101,7 @@ export const ProductList = ({ products }: { products: IProduct[] }) => {
                                         <TableCell className="text-center">
                                             {product.name}
                                         </TableCell>
-                                        <TableCell className="text-center">
+                                        <TableCell className="text-center w-52">
                                             {product.description}
                                         </TableCell>
                                         <TableCell className="text-center">

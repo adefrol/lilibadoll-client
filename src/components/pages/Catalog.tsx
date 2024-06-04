@@ -1,4 +1,4 @@
-import { AlignLeft, Filter, Search, ShoppingCart, User } from "lucide-react";
+import { AlignLeft, Filter, Instagram, Search, ShoppingCart, Twitter, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IProduct } from "../../interfaces/product.interface";
 import { ProductService } from "../../service/product.service";
@@ -240,6 +240,11 @@ export const Catalog = () => {
                               ))}
                     </div>
                 </div>
+            </div>
+            <div className="py-9 w-full h-[50px] bg-[#4a394d] flex items-center justify-center gap-5 font-extrabold text-[#f5f5f5]">
+                <Instagram />
+                <Twitter />
+                LIlIbadoll &copy;
             </div>
         </div>
     );

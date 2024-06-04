@@ -874,6 +874,18 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
+"@react-input/core@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@react-input/core/-/core-1.0.12.tgz#b76e2474ad544a02e476baa9184ee7ff788c3c3c"
+  integrity sha512-lZDQjphsJenWCD0mcflsyneLnb2a7bFAgAVzih9diEcUjKopcK+QOXhz0a0PHEp8k5LEKpYadjwyltAGOOhL2g==
+
+"@react-input/mask@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@react-input/mask/-/mask-1.2.5.tgz#0ce9c48e36dfcb56705eda811b0143454e146e55"
+  integrity sha512-xouBATnitQqhgKLgu6/J2IZRu7kzqm/tFw2ToFnk6EkRzWs5dawlcF8asASMu7LCDrCqSkjwN+/sscEMG7IXog==
+  dependencies:
+    "@react-input/core" "^1.0.12"
+
 "@rollup/rollup-android-arm-eabi@4.17.0":
   version "4.17.0"
   resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.17.0.tgz#bc8d14ba7673d901a0d5b4b5061dd4f843ab1797"

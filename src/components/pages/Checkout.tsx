@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { BadgeRussianRuble, Check, ShoppingCart, Truck } from "lucide-react";
 import { Card, CardContent, CardHeader } from "../ui/card";
@@ -13,12 +13,17 @@ import { CartService, setCount } from "@/service/cart.service";
 import { toCurrency } from "@/lib/utils";
 import { API_URL } from "@/lib/api_url";
 import { Input } from "../ui/input";
+import { Route } from "@/routes/checkout";
+import { Loading } from "../Loading";
+import { InputMask } from '@react-input/mask'
 
 export const Checkout = () => {
     const [cart, setCart] = useState<ICartProduct[]>(CartService.getCart());
 
-    const [activePath, setActivePath] = useState<string>("cart");
+    const navigate = Route.useNavigate();
 
+    const [activePath, setActivePath] = useState<string>("cart");
+    const [loading, setLoading] = useState<boolean>(true)
     const [newPurchase, setNewPurchase] = useState<INewPurchase>({
         status: "В обработке",
         sum: priceSum() + 1000,
@@ -97,6 +102,9 @@ export const Checkout = () => {
         }
         if (activePath == "accept") {
             return returnAccept();
+        }
+        if (activePath == "result") {
+            return resultPath();
         } else {
             return returnCart();
         }
@@ -108,7 +116,7 @@ export const Checkout = () => {
                 <CardHeader className="text-center font-bold text-3xl">
                     Ваши товары
                 </CardHeader>
-                <CardContent className="flex items-center justify-center">
+                <CardContent className="flex flex-col gap-5 justify-center">
                     {cart?.map((product, idx) => (
                         <div className="flex h-40 gap-5">
                             <div
@@ -133,7 +141,8 @@ export const Checkout = () => {
                                             </p>
                                         ) : (
                                             toCurrency(
-                                                Number(product.product.price) * product.count
+                                                Number(product.product.price) *
+                                                    product.count
                                             )
                                         )}
                                     </p>
@@ -189,6 +198,12 @@ export const Checkout = () => {
                             </div>
                         </div>
                     ))}
+                    <Button
+                        onClick={() => setActivePath("delivery")}
+                        size={"lg"}
+                    >
+                        Следующий этап
+                    </Button>
                 </CardContent>
             </Card>
         );
@@ -205,32 +220,57 @@ export const Checkout = () => {
                         <div className="mx-4 px-5 w-full border-primary flex flex-col gap-5">
                             <div className="flex gap-2 items-center">
                                 <p className="w-40 text-end">Город</p>
-                                <Input
+                                <InputMask
                                     value={city}
                                     required
+                                    mask='г. _____________'
+                                    replacement="_"
                                     placeholder="г. Иркутск"
+                                    className='p-2 border border-primary rounded-3xl w-full'
                                     onChange={(e) => setCity(e.target.value)}
                                 />
                             </div>
                             <div className="flex gap-2 items-center">
                                 <p className="w-40 text-end">Улица</p>
-                                <Input
+                                <InputMask
                                     value={address}
                                     required
+                                    mask='ул. _________________________'
+                                    replacement="_"
                                     placeholder="ул. Ленина, 1"
+                                    className='p-2 border border-primary rounded-3xl w-full'
                                     onChange={(e) => setAddress(e.target.value)}
                                 />
                             </div>
                             <div className="flex gap-2 items-center ">
                                 <p className="w-40 text-end">Почтовый индекс</p>
-                                <Input
+                                <InputMask
                                     value={index}
                                     required
+                                    mask='______'
+                                    replacement={{_: /\d/}}
                                     placeholder="664001"
+                                    className='p-2 border border-primary rounded-3xl w-full'
                                     onChange={(e) => setIndex(e.target.value)}
                                 />
                             </div>
                         </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={() => setActivePath("cart")}
+                            className="w-full mt-10"
+                            size={"default"}
+                        >
+                            Вернуться назад
+                        </Button>
+                        <Button
+                            onClick={() => setActivePath("pay")}
+                            className="w-full mt-10"
+                            size={"default"}
+                        >
+                            Следующий этап
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
@@ -248,14 +288,33 @@ export const Checkout = () => {
                         <div className="mx-4 px-5 w-full border-primary flex flex-col gap-5">
                             <div className="flex gap-2 items-center">
                                 <p className="w-40 text-end">Карта</p>
-                                <Input
+                                <InputMask
                                     required
                                     value={payCard}
+                                    mask='____ ____ ____ ____'
+                                    replacement={{_: /\d/}}
                                     placeholder="2345 2345 5123 1451"
+                                    className='p-2 border border-primary rounded-3xl w-full'
                                     onChange={(e) => setPayCard(e.target.value)}
                                 />
                             </div>
                         </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={() => setActivePath("delivery")}
+                            className="w-full mt-10"
+                            size={"default"}
+                        >
+                            Вернуться назад
+                        </Button>
+                        <Button
+                            onClick={() => setActivePath("accept")}
+                            className="w-full mt-10"
+                            size={"default"}
+                        >
+                            Следующий этап
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
@@ -307,11 +366,33 @@ export const Checkout = () => {
                             </p>
                         </div>
                     </div>
-                    <Button className="w-40" onClick={() => handleSubmit()}>
-                        Оформить заказ
-                    </Button>
+                    <div className="flex gap-5 mt-10">
+                        <Button
+                            onClick={() => setActivePath("pay")}
+                            size={"default"}
+                        >
+                            Вернуться назад
+                        </Button>
+                        <Button className="w-40" onClick={() => handleSubmit()}>
+                            Оформить заказ
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
+        );
+    }
+
+    function resultPath() {
+        if (loading) {
+            return <Loading />;
+        }
+        return (
+            <div className="flex flex-col gap-5 items-center justify-center h-[500px] text-4xl font-extrabold">
+                <p>Заказ оформлен</p>
+                <Button onClick={() => navigate({ to: "/profile" })}>
+                    Перейти в профиль
+                </Button>
+            </div>
         );
     }
 
@@ -349,9 +430,12 @@ export const Checkout = () => {
     }
 
     async function handleSubmit() {
+        setLoading(true)
+        setActivePath("result");
         const data = await PurchaseService.create(newPurchase);
-
+        setLoading(false)
         console.log(data);
+        
     }
 
     function countSum() {
