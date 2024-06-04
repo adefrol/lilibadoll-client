@@ -12,7 +12,6 @@ import { UserService } from "@/service/user.service";
 import { CartService, setCount } from "@/service/cart.service";
 import { toCurrency } from "@/lib/utils";
 import { API_URL } from "@/lib/api_url";
-import { Input } from "../ui/input";
 import { Route } from "@/routes/checkout";
 import { Loading } from "../Loading";
 import { InputMask } from '@react-input/mask'

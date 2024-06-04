@@ -12,7 +12,7 @@ import { Input } from "../ui/input";
 import { UserService } from "@/service/user.service";
 import { IUser, IUserErrors } from "@/interfaces/user.interface";
 import { Route } from "@/routes/register";
-import { InputMask, useMask } from "@react-input/mask";
+import { InputMask } from "@react-input/mask";
 
 const ValidateInput = ({
     htmlFor,
@@ -71,10 +71,6 @@ const ValidateInput = ({
 export const Register = () => {
     const validEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
 
-    const phoneMask = useMask({
-        mask: "+7 (___) ___-__-__",
-        replacement: { _: /\d/ },
-    });
 
     const navigate = Route.useNavigate();
 
