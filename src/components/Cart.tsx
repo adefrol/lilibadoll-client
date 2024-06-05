@@ -64,7 +64,7 @@ export const Cart = () => {
                         <h1 className="text-3xl font-extrabold pb-6 pt-2 px-1">
                             Корзина
                         </h1>
-                        <ScrollArea className="h-[750px]">
+                        <ScrollArea className={cart?.length != 0 ? "h-[750px]" : "h-[50px]"}>
                             {cart?.length! > 0 ? (
                                 <div className="flex flex-col gap-5">
                                     {cart?.map((product) => (
