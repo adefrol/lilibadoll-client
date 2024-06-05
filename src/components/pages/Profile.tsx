@@ -8,6 +8,8 @@ import { IUserPurchases } from "@/interfaces/user.interface";
 import { Loading } from "../Loading";
 import { Route } from '@/routes/profile'
 import { Button } from '../ui/button'
+import { Link } from "@tanstack/react-router";
+
 
 export const Profile = () => {
     const [profile, setProfile] = useState<IUserPurchases>();
