@@ -36,6 +36,7 @@ export const Profile = () => {
                     <Loading />
                 ) : (
                     <   >
+                        <Link to="/catalog" className="text-center w-full">Вернуться назад</Link>
                         <Card>
                             <CardHeader className='flex  gap-2'>
                                 <h1 className="font-bold text-3xl">
