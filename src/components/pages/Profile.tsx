@@ -1,7 +1,7 @@
 import  { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { Purchase } from "../Purchases";
-import { Input } from "../ui/input";
+
 import { UserService } from "@/service/user.service";
 import { IUserPurchases } from "@/interfaces/user.interface";
 
