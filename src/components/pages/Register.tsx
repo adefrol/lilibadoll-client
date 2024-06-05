@@ -13,7 +13,6 @@ import { UserService } from "@/service/user.service";
 import { IUser, IUserErrors } from "@/interfaces/user.interface";
 import { Route } from "@/routes/register";
 import { InputMask } from "@react-input/mask";
-import { Link } from "@tanstack/react-router";
 
 
 const ValidateInput = ({
