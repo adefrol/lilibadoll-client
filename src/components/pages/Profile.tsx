@@ -48,7 +48,7 @@ export const Profile = () => {
                             </CardHeader>
                             <CardContent>
                                 <div className="flex flex-col gap-4">
-                                    <div className="flex gap-2">
+                                    {/*<div className="flex gap-2">
                                         <p>Имя</p>
                                         <Input
                                             defaultValue={profile?.name}
@@ -69,7 +69,7 @@ export const Profile = () => {
                                             defaultValue={profile?.password}
                                             readOnly
                                         />
-                                    </div>
+                                    </div>*/}
                                     {profile ? (
                                         <Purchase profile={profile} />
                                     ) : (
