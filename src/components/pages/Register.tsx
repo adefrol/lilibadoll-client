@@ -13,6 +13,8 @@ import { UserService } from "@/service/user.service";
 import { IUser, IUserErrors } from "@/interfaces/user.interface";
 import { Route } from "@/routes/register";
 import { InputMask } from "@react-input/mask";
+import { Link } from "@tanstack/react-router";
+
 
 const ValidateInput = ({
     htmlFor,
@@ -122,6 +124,7 @@ export const Register = () => {
 
     return (
         <div className="flex justify-center items-center h-[90svh]">
+            <Link to="/catalog" className="text-center w-full">На главную</Link>
             <form onSubmit={async (e) => await handleSubmit(e)}>
                 <Card className="mx-auto max-w-lg w-full">
                     <CardHeader>
