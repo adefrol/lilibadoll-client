@@ -37,7 +37,7 @@ export const Purchase = ({ profile }: { profile: IUserPurchases }) => {
                                 <TableCell>
                                     {purchase.purchaseDetails.map((detail) => (
                                         <p>
-                                            {detail.product.name} -{" "}
+                                            {detail.product?.name} -{" "}
                                             {detail.count} шт.
                                         </p>
                                     ))}
