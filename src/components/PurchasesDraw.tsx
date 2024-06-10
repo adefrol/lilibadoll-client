@@ -75,7 +75,7 @@ export const PurchaseControl = ({ purchases }: { purchases: IPurchase[] }) => {
                                         {purchase.purchaseDetails.map(
                                             (detail) => (
                                                 <p>
-                                                    {detail.product.name} -
+                                                    {detail.product?.name} -
                                                     {detail.count}
                                                 </p>
                                             )
