@@ -94,7 +94,7 @@ export const DiscountControl = ({
                                                     </DialogHeader>
                                                     <DialogDescription>
                                                         Вы действительно хотите
-                                                        баннер?
+                                                        скидку?
                                                     </DialogDescription>
                                                 </DialogHeader>
                                                 <DialogFooter>

@@ -19,7 +19,9 @@ import { toast } from "sonner";
 
 export const DiscountCreate = ({ product }: { product?: IProduct }) => {
     const [newDiscount, setNewDiscount] = useState<INewDiscount | null>(
-        product ? { target: product.id, type: "one" } : { type: "category" }
+        product
+            ? { target: product.id, name: product.name, type: "one" }
+            : { type: "category" }
     );
 
     const [loading, setLoading] = useState(false);
