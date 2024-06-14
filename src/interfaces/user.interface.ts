@@ -1,4 +1,4 @@
-import { IPurchase } from './purchase.interface'
+import { IPurchase } from "./purchase.interface";
 
 export interface IUser {
     id?: string | number;
@@ -19,6 +19,11 @@ export interface IUserPurchases {
     purchases: IPurchase[];
 }
 
+export interface IUserChangePass {
+    id: number;
+    oldPass?: string;
+    newPass?: string;
+}
 
 export interface IUserErrors {
     name?: string;
@@ -31,5 +36,3 @@ export interface ILogin {
     access_token?: string;
     status: number;
 }
-
-

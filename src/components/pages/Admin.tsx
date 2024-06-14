@@ -14,6 +14,7 @@ import { PurchaseService } from "@/service/purchase.service";
 import { IPurchase } from "@/interfaces/purchase.interface";
 import { PurchaseControl } from "../PurchasesDraw";
 import { Route } from "@/routes/admin";
+import { Header } from "../Header";
 
 export const Admin = () => {
     const { activePath } = Route.useSearch();
@@ -33,7 +34,9 @@ export const Admin = () => {
 
     async function getPurchases() {
         setLoading(true);
-        const data = await PurchaseService.getAll();
+        const data = (await PurchaseService.getAll()).sort(
+            (a, b) => b.id - a.id
+        );
         setPurchases(data);
         setLoading(false);
     }
@@ -102,14 +105,19 @@ export const Admin = () => {
                 <Loading />
             ) : (
                 <>
+                    <Header minWithFalse />
                     {/* <OrderDraw data={orders} />
                     <ProductCreate /> */}
-                    <div className="p-5 max-w-[1800px] mx-auto">
+                    <div className="p-5 max-w-[1800px] mx-auto pt-20">
                         <div className="flex max-sm:flex-col h-10 gap-3 justify-around">
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
-                                variant={activePath == 'products' ? 'default' : 'secondary'}
+                                variant={
+                                    activePath == "products"
+                                        ? "default"
+                                        : "secondary"
+                                }
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "products" },
@@ -124,7 +132,11 @@ export const Admin = () => {
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
-                                variant={activePath == 'discount' ? 'default' : 'secondary'}
+                                variant={
+                                    activePath == "discount"
+                                        ? "default"
+                                        : "secondary"
+                                }
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "discount" },
@@ -139,7 +151,11 @@ export const Admin = () => {
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
-                                variant={activePath == 'orders' ? 'default' : 'secondary'}
+                                variant={
+                                    activePath == "orders"
+                                        ? "default"
+                                        : "secondary"
+                                }
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "orders" },
@@ -154,7 +170,11 @@ export const Admin = () => {
                             <Button
                                 className="flex gap-1"
                                 size={"lg"}
-                                variant={activePath == 'purchases' ? 'default' : 'secondary'}
+                                variant={
+                                    activePath == "purchases"
+                                        ? "default"
+                                        : "secondary"
+                                }
                                 onClick={() =>
                                     navigate({
                                         search: { activePath: "purchases" },
@@ -165,7 +185,9 @@ export const Admin = () => {
                             </Button>
                         </div>
                     </div>
-                    <div className="max-w-[1800px] mx-auto">{returnCheck()}</div>
+                    <div className="max-w-[1800px] mx-auto">
+                        {returnCheck()}
+                    </div>
                 </>
             )}
         </>

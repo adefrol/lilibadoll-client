@@ -1,15 +1,22 @@
-import { IUser } from '@/interfaces/user.interface'
-import { AuthLogged } from '@/providers/auth'
-import { Route } from '@/routes/login'
-import { UserService } from '@/service/user.service'
-import React, { useState } from 'react'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import { Link } from '@tanstack/react-router'
+import { IUser } from "@/interfaces/user.interface";
+import { AuthLogged } from "@/providers/auth";
+import { Route } from "@/routes/login";
+import { UserService } from "@/service/user.service";
+import React, { useState } from "react";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "../ui/card";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Link } from "@tanstack/react-router";
+import { Header } from "../Header";
 
 export const Login = () => {
-
     const [loginData, setLoginData] = useState<IUser>({
         email: "",
         password: "",
@@ -29,7 +36,7 @@ export const Login = () => {
 
         if (data?.status == 200) {
             console.log("ok");
-            
+
             if (searchParams?.redirect) {
                 navigate({ to: searchParams.redirect });
             } else {
@@ -41,9 +48,9 @@ export const Login = () => {
         }
     }
 
-  return (
-    <AuthLogged deAuth>
-            
+    return (
+        <AuthLogged deAuth>
+            <Header />
             <div className="flex justify-center items-center h-[90svh]">
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <Card className="w-full max-w-sm">
@@ -55,7 +62,7 @@ export const Login = () => {
                         </CardHeader>
                         <CardContent className="grid gap-4">
                             <div className="flex items-center  gap-2">
-                                <p className='w-20'>E-mail</p>
+                                <p className="w-20">E-mail</p>
                                 <Input
                                     id="email"
                                     type="email"
@@ -70,7 +77,7 @@ export const Login = () => {
                                 />
                             </div>
                             <div className="flex items-center gap-2">
-                                <p className='w-20'>Пароль</p>
+                                <p className="w-20">Пароль</p>
                                 <Input
                                     id="password"
                                     type="password"
@@ -89,18 +96,23 @@ export const Login = () => {
                                 <></>
                             )}
                         </CardContent>
-                        <CardFooter className='flex flex-col'>
+                        <CardFooter className="flex flex-col">
                             <Button className="w-full" type="submit">
                                 Войти
                             </Button>
                             <div className="mt-4 text-center text-sm">
                                 Нет аккаунта?{" "}
-                                <Link to="/register" className='text-primary underline'>Зарегистрироваться</Link>
+                                <Link
+                                    to="/register"
+                                    className="text-primary underline"
+                                >
+                                    Зарегистрироваться
+                                </Link>
                             </div>
                         </CardFooter>
                     </Card>
                 </form>
             </div>
         </AuthLogged>
-  )
-}
+    );
+};

@@ -13,12 +13,12 @@ import { IUserPurchases } from "@/interfaces/user.interface";
 export const Purchase = ({ profile }: { profile: IUserPurchases }) => {
 
     return (
-        <Card className="my-10">
+        <Card className="">
             <CardHeader className="text-3xl font-bold flex flex-row items-center justify-center gap-4">
                 <p>Мои заказы</p>
                 
             </CardHeader>
-            <ScrollArea className="max-h-[700px] pb-10">
+            <ScrollArea className="h-[390px] pb-10">
                 <Table>
                     <TableHeader>
                         <TableRow className="">

@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
     Select,
@@ -37,7 +35,8 @@ export const DiscountCreate = ({ product }: { product?: IProduct }) => {
                     setLoading(false);
                     toast("Нет товаров для скидки");
                 } else {
-                    /* window.location.reload(); */
+                    localStorage.removeItem("cart");
+                    window.location.reload();
                 }
             }
         } catch (e) {
@@ -78,21 +77,20 @@ export const DiscountCreate = ({ product }: { product?: IProduct }) => {
             <div>
                 <form onSubmit={(e) => handleCreate(e)}>
                     <Card className="p-4">
-                        <h1 className="text-center py-5 text-3xl font-extrabold">
-                            Создание скидки для {product?.name}
+                        <h1 className="text-center py-5 max-w-[300px] mx-auto text-3xl font-extrabold">
+                            {product
+                                ? "Создание скидки для " + product.name
+                                : "Создание скидки"}
                         </h1>
 
                         <div className="flex flex-col gap-5 p-5  w-full flex-grow">
-                            {product ? (
-                                <div className="">{`${product.name}`}</div>
-                            ) : (
-                                <>{selectedCategory()}</>
-                            )}
+                            {product ? <></> : <>{selectedCategory()}</>}
                             <div className="flex gap-2 items-center flex-grow">
                                 <p className="">Название</p>
                                 <Input
                                     className="flex-grow"
                                     type="text"
+                                    defaultValue={product ? product.name : ""}
                                     onChange={(e) => {
                                         setNewDiscount({
                                             ...newDiscount,

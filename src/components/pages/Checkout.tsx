@@ -9,12 +9,14 @@ import {
 } from "@/interfaces/purchase.interface";
 import { PurchaseService } from "@/service/purchase.service";
 import { UserService } from "@/service/user.service";
-import { CartService, setCount } from "@/service/cart.service";
+import { CartService } from "@/service/cart.service";
 import { toCurrency } from "@/lib/utils";
 import { API_URL } from "@/lib/api_url";
 import { Route } from "@/routes/checkout";
 import { Loading } from "../Loading";
-import { InputMask } from '@react-input/mask'
+import { InputMask } from "@react-input/mask";
+import { Header } from "../Header";
+import { useToast } from "../ui/use-toast";
 
 export const Checkout = () => {
     const [cart, setCart] = useState<ICartProduct[]>(CartService.getCart());
@@ -22,7 +24,7 @@ export const Checkout = () => {
     const navigate = Route.useNavigate();
 
     const [activePath, setActivePath] = useState<string>("cart");
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(true);
     const [newPurchase, setNewPurchase] = useState<INewPurchase>({
         status: "В обработке",
         sum: priceSum() + 1000,
@@ -30,11 +32,6 @@ export const Checkout = () => {
         payType: "Карта",
     });
 
-    const [counterChange, setCounterChange] = useState<number>(0);
-
-    useEffect(() => {
-        setCart(CartService.getCart());
-    }, [counterChange]);
 
     const [city, setCity] = useState<string>();
     const [address, setAddress] = useState<string>();
@@ -78,7 +75,11 @@ export const Checkout = () => {
     }
 
     useEffect(() => {
-        getUserId();
+        if (UserService.getToken() == null) {
+            navigate({ to: "/login" });
+        } else {
+            getUserId();
+        }
     }, []);
 
     useEffect(() => {
@@ -116,7 +117,7 @@ export const Checkout = () => {
                     Ваши товары
                 </CardHeader>
                 <CardContent className="flex flex-col gap-5 justify-center">
-                    {cart?.map((product, idx) => (
+                    {cart?.map((product) => (
                         <div className="flex h-40 gap-5">
                             <div
                                 className="w-40 h-40 bg-contain rounded-xl"
@@ -168,22 +169,7 @@ export const Checkout = () => {
                                     )}
                                 </div>
                             </div>
-                            <div className="flex items-center gap-1">
-                                <Button
-                                    variant={"outline"}
-                                    disabled={product.count == 1}
-                                    onClick={() => handleCount("-", product)}
-                                >
-                                    -
-                                </Button>
-                                <p key={cart[idx].count}>{product.count}</p>
-                                <Button
-                                    variant={"outline"}
-                                    onClick={() => handleCount("+", product)}
-                                >
-                                    +
-                                </Button>
-                            </div>
+
                             <div className="flex items-center">
                                 <Button
                                     variant={"destructive"}
@@ -222,10 +208,10 @@ export const Checkout = () => {
                                 <InputMask
                                     value={city}
                                     required
-                                    mask='г. _____________'
+                                    mask="г. _____________"
                                     replacement="_"
                                     placeholder="г. Иркутск"
-                                    className='p-2 border border-primary rounded-3xl w-full'
+                                    className="p-2 border border-primary rounded-3xl w-full"
                                     onChange={(e) => setCity(e.target.value)}
                                 />
                             </div>
@@ -234,10 +220,10 @@ export const Checkout = () => {
                                 <InputMask
                                     value={address}
                                     required
-                                    mask='ул. _________________________'
+                                    mask="ул. _________________________"
                                     replacement="_"
                                     placeholder="ул. Ленина, 1"
-                                    className='p-2 border border-primary rounded-3xl w-full'
+                                    className="p-2 border border-primary rounded-3xl w-full"
                                     onChange={(e) => setAddress(e.target.value)}
                                 />
                             </div>
@@ -246,10 +232,10 @@ export const Checkout = () => {
                                 <InputMask
                                     value={index}
                                     required
-                                    mask='______'
-                                    replacement={{_: /\d/}}
+                                    mask="______"
+                                    replacement={{ _: /\d/ }}
                                     placeholder="664001"
-                                    className='p-2 border border-primary rounded-3xl w-full'
+                                    className="p-2 border border-primary rounded-3xl w-full"
                                     onChange={(e) => setIndex(e.target.value)}
                                 />
                             </div>
@@ -290,10 +276,10 @@ export const Checkout = () => {
                                 <InputMask
                                     required
                                     value={payCard}
-                                    mask='____ ____ ____ ____'
-                                    replacement={{_: /\d/}}
+                                    mask="____ ____ ____ ____"
+                                    replacement={{ _: /\d/ }}
                                     placeholder="2345 2345 5123 1451"
-                                    className='p-2 border border-primary rounded-3xl w-full'
+                                    className="p-2 border border-primary rounded-3xl w-full"
                                     onChange={(e) => setPayCard(e.target.value)}
                                 />
                             </div>
@@ -395,18 +381,6 @@ export const Checkout = () => {
         );
     }
 
-    function handleCount(crement: setCount, cartItem: ICartProduct) {
-        if (crement == "-") {
-            if (cartItem.count != 1) {
-                CartService.setCount(crement, cartItem.product);
-                setCounterChange(counterChange + 1);
-            }
-        } else {
-            CartService.setCount(crement, cartItem.product);
-            setCounterChange(counterChange + 1);
-        }
-    }
-
     function priceSum() {
         const sum = cart?.reduce((accumulator, object) => {
             if (object.product.discount) {
@@ -428,13 +402,30 @@ export const Checkout = () => {
         return sum;
     }
 
+    const { toast } = useToast();
+
     async function handleSubmit() {
-        setLoading(true)
+        if (!city || !address || !index) {
+            toast({
+                variant: 'destructive',
+                title: "Проверьте заполнение данных",
+                description: "Адрес не полный!"
+            })
+            return
+        }
+        if(payCard.length != 19 || !payCard) {
+            toast({
+                variant: 'destructive',
+                title: "Проверьте заполнение данных",
+                description: "Неправильный ввод данных банковской карты"
+            })
+            return
+        }
+        setLoading(true);
         setActivePath("result");
         const data = await PurchaseService.create(newPurchase);
-        setLoading(false)
+        setLoading(false);
         console.log(data);
-        
     }
 
     function countSum() {
@@ -444,50 +435,56 @@ export const Checkout = () => {
     }
 
     return (
-        <div className="max-w-[1400px] mx-auto relative bg-background w-full h-full">
-            <h1>Оформление заказа</h1>
-            <div className="p-5">
-                <div className="flex h-10 gap-3 justify-around">
-                    <Button
-                        className="flex gap-1"
-                        size={"lg"}
-                        onClick={() => setActivePath("cart")}
-                    >
-                        <ShoppingCart /> Ваши товары
-                    </Button>
-                    <div className="flex items-end h-full flex-grow">
-                        <div className="border-t-2 border-dashed flex-grow h-1/2 border-primary"></div>
+        <>
+            <Header />
+
+            <div className="max-w-[1400px] mx-auto pt-20 relative bg-background w-full h-full">
+                <h1 className="text-center text-3xl font-extrabold">
+                    Оформление заказа
+                </h1>
+                <div className="p-5">
+                    <div className="flex h-10 gap-3 justify-around">
+                        <Button
+                            className="flex gap-1"
+                            size={"lg"}
+                            onClick={() => setActivePath("cart")}
+                        >
+                            <ShoppingCart /> Ваши товары
+                        </Button>
+                        <div className="flex items-end h-full flex-grow">
+                            <div className="border-t-2 border-dashed flex-grow h-1/2 border-primary"></div>
+                        </div>
+                        <Button
+                            className="flex gap-1"
+                            size={"lg"}
+                            onClick={() => setActivePath("delivery")}
+                        >
+                            <Truck /> Доставка
+                        </Button>
+                        <div className="flex items-end h-full flex-grow">
+                            <div className="border-t-2 border-dashed h-1/2 border-primary flex-grow"></div>
+                        </div>
+                        <Button
+                            className="flex gap-1"
+                            size={"lg"}
+                            onClick={() => setActivePath("pay")}
+                        >
+                            <BadgeRussianRuble /> Оплата
+                        </Button>
+                        <div className="flex items-end h-full flex-grow">
+                            <div className="border-t-2 border-dashed h-1/2 border-primary flex-grow"></div>
+                        </div>
+                        <Button
+                            className="flex gap-1"
+                            size={"lg"}
+                            onClick={() => setActivePath("accept")}
+                        >
+                            <Check /> Подтверждение
+                        </Button>
                     </div>
-                    <Button
-                        className="flex gap-1"
-                        size={"lg"}
-                        onClick={() => setActivePath("delivery")}
-                    >
-                        <Truck /> Доставка
-                    </Button>
-                    <div className="flex items-end h-full flex-grow">
-                        <div className="border-t-2 border-dashed h-1/2 border-primary flex-grow"></div>
-                    </div>
-                    <Button
-                        className="flex gap-1"
-                        size={"lg"}
-                        onClick={() => setActivePath("pay")}
-                    >
-                        <BadgeRussianRuble /> Оплата
-                    </Button>
-                    <div className="flex items-end h-full flex-grow">
-                        <div className="border-t-2 border-dashed h-1/2 border-primary flex-grow"></div>
-                    </div>
-                    <Button
-                        className="flex gap-1"
-                        size={"lg"}
-                        onClick={() => setActivePath("accept")}
-                    >
-                        <Check /> Подтверждение
-                    </Button>
                 </div>
+                {returnCheck()}
             </div>
-            {returnCheck()}
-        </div>
+        </>
     );
 };

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../lib/api_url";
 import { Button } from "./ui/button";
 import { ICartProduct } from "@/interfaces/purchase.interface";
-import { CartService, setCount } from "@/service/cart.service";
+import { CartService } from "@/service/cart.service";
 import { Route } from "@/routes/catalog";
 import { toCurrency } from "@/lib/utils";
 import { ScrollArea } from "./ui/scroll-area";
@@ -11,25 +11,9 @@ import { ScrollArea } from "./ui/scroll-area";
 export const Cart = () => {
     const [cart, setCart] = useState<ICartProduct[]>();
 
-    const [counterChange, setCounterChange] = useState<number>(0);
 
     const navigate = Route.useNavigate();
 
-    useEffect(() => {
-        setCart(CartService.getCart());
-    }, [counterChange]);
-
-    function handleCount(crement: setCount, cartItem: ICartProduct) {
-        if (crement == "-") {
-            if (cartItem.count != 1) {
-                CartService.setCount(crement, cartItem.product);
-                setCounterChange(counterChange + 1);
-            }
-        } else {
-            CartService.setCount(crement, cartItem.product);
-            setCounterChange(counterChange + 1);
-        }
-    }
 
     useEffect(() => {
         setCart(CartService.getCart());
@@ -64,7 +48,7 @@ export const Cart = () => {
                         <h1 className="text-3xl font-extrabold pb-6 pt-2 px-1">
                             Корзина
                         </h1>
-                        <ScrollArea className={cart?.length != 0 ? "h-[750px]" : "h-[50px]"}>
+                        <ScrollArea className={cart?.length != 0 ? "h-[550px]" : "h-[50px]"}>
                             {cart?.length! > 0 ? (
                                 <div className="flex flex-col gap-5">
                                     {cart?.map((product) => (
@@ -130,34 +114,6 @@ export const Cart = () => {
                                                         <></>
                                                     )}
                                                 </div>
-                                            </div>
-                                            <div className="flex items-center gap-1">
-                                                <Button
-                                                    variant={"outline"}
-                                                    disabled={
-                                                        product.count == 1
-                                                    }
-                                                    onClick={() =>
-                                                        handleCount(
-                                                            "-",
-                                                            product
-                                                        )
-                                                    }
-                                                >
-                                                    -
-                                                </Button>
-                                                <p>{product.count}</p>
-                                                <Button
-                                                    variant={"outline"}
-                                                    onClick={() =>
-                                                        handleCount(
-                                                            "+",
-                                                            product
-                                                        )
-                                                    }
-                                                >
-                                                    +
-                                                </Button>
                                             </div>
                                             <div className="flex items-center">
                                                 <Button

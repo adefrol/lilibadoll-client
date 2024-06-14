@@ -18,7 +18,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
     Table,
     TableBody,
-    
     TableCell,
     TableHead,
     TableHeader,
@@ -37,6 +36,7 @@ export const ProductList = ({ products }: { products: IProduct[] }) => {
 
     async function deleteProduct(id: number) {
         await ProductService.delete(id);
+        localStorage.removeItem("cart");
         window.location.reload();
     }
 
@@ -48,7 +48,7 @@ export const ProductList = ({ products }: { products: IProduct[] }) => {
 
     function returnDiscount() {
         if (selected) {
-            return <DiscountCreate product={selected} />;
+            return <DiscountCreate key={selected.id} product={selected} />;
         }
     }
 
@@ -59,9 +59,7 @@ export const ProductList = ({ products }: { products: IProduct[] }) => {
                 {returnEdit()}
                 {returnDiscount()}
             </div>
-            <h1 className="text-center py-5 text-3xl font-extrabold">
-                Товары
-            </h1>
+            <h1 className="text-center py-5 text-3xl font-extrabold">Товары</h1>
             <div className="mx-20 border-zinc-200 border-2">
                 <ScrollArea className="h-[800px]">
                     <Table>
@@ -92,7 +90,7 @@ export const ProductList = ({ products }: { products: IProduct[] }) => {
                                     <TableRow className="h-[300px]">
                                         <TableCell className="font-medium h-full p-0">
                                             <div
-                                                className="w-full h-[200px] bg-contain bg-no-repeat bg-center rounded-lg"
+                                                className="w-full h-[200px] bg-contain bg-no-repeat bg-center"
                                                 style={{
                                                     backgroundImage: `url(${API_URL}/${product.image})`,
                                                 }}
@@ -157,8 +155,9 @@ export const ProductList = ({ products }: { products: IProduct[] }) => {
                                                             НАСТРОИТЬ
                                                         </Button>
                                                         <Dialog>
-                                                            <DialogTrigger>
+                                                            <DialogTrigger className="w-full">
                                                                 <Button
+                                                                    className="w-full"
                                                                     variant={
                                                                         "destructive"
                                                                     }

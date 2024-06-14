@@ -53,9 +53,7 @@ export const PurchaseControl = ({ purchases }: { purchases: IPurchase[] }) => {
                                 <TableHead className="text-center ">
                                     Доставка на адрес
                                 </TableHead>
-                                <TableHead className="text-center ">
-                                    Тип оплаты
-                                </TableHead>
+
                                 <TableHead className="text-center ">
                                     Статус заказа
                                 </TableHead>
@@ -74,15 +72,12 @@ export const PurchaseControl = ({ purchases }: { purchases: IPurchase[] }) => {
                                     <TableCell>
                                         {purchase.purchaseDetails.map(
                                             (detail) => (
-                                                <p>
-                                                    {detail.product?.name} -
-                                                    {detail.count}
-                                                </p>
+                                                <p>{detail.product?.name}</p>
                                             )
                                         )}
                                     </TableCell>
                                     <TableCell>{purchase.address}</TableCell>
-                                    <TableCell>{purchase.payType}</TableCell>
+
                                     <TableCell>{purchase.status}</TableCell>
                                     <TableCell>
                                         {new Date(

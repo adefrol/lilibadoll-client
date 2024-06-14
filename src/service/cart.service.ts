@@ -1,6 +1,6 @@
-import { IProduct } from '@/interfaces/product.interface'
-import { ICartProduct } from '@/interfaces/purchase.interface'
-import { toast } from 'sonner'
+import { IProduct } from "@/interfaces/product.interface";
+import { ICartProduct } from "@/interfaces/purchase.interface";
+import { toast } from "sonner";
 
 export const CartService = {
     addToCart(product: IProduct) {
@@ -22,7 +22,9 @@ export const CartService = {
                 toast("Вы уже добавили товар");
             } else {
                 parsedCart.push(productToAdd);
-                toast("Вы добавили " + productToAdd.product.name + " в корзину")
+                toast(
+                    "Вы добавили " + productToAdd.product.name + " в корзину"
+                );
                 localStorage.setItem("cart", JSON.stringify(parsedCart));
             }
         } else {
@@ -38,8 +40,18 @@ export const CartService = {
         if (cart != null) {
             let parsedCart: ICartProduct[] = JSON.parse(cart);
 
-            parsedCart.splice(parsedCart.indexOf(productToRemove), 1);
-            localStorage.setItem("cart", JSON.stringify(parsedCart));
+            let productIndex: number | undefined = undefined;
+            parsedCart.forEach((element, index) => {
+                if (element.product.id == productToRemove.product.id) {
+                    productIndex = index;
+                }
+                return;
+            });
+
+            if (productIndex != undefined) {
+                parsedCart.splice(productIndex, 1);
+                localStorage.setItem("cart", JSON.stringify(parsedCart));
+            }
         }
     },
 
@@ -93,5 +105,5 @@ export const CartService = {
             localStorage.setItem("cart", JSON.stringify(parsedCart));
         }
     },
-}
+};
 export type setCount = "-" | "+";

@@ -13,7 +13,7 @@ import { UserService } from "@/service/user.service";
 import { IUser, IUserErrors } from "@/interfaces/user.interface";
 import { Route } from "@/routes/register";
 import { InputMask } from "@react-input/mask";
-
+import { Header } from "../Header";
 
 const ValidateInput = ({
     htmlFor,
@@ -28,7 +28,7 @@ const ValidateInput = ({
     placeholder: string;
     name: string;
     error: any;
-    mask?: boolean
+    mask?: boolean;
     type: React.HTMLInputTypeAttribute;
     onChange: React.ChangeEventHandler<HTMLInputElement>;
 }) => {
@@ -43,10 +43,10 @@ const ValidateInput = ({
                     id={htmlFor}
                     placeholder={placeholder}
                     required
-                    mask='+7 (___) ___-__-__'
+                    mask="+7 (___) ___-__-__"
                     replacement={{ _: /\d/ }}
                     onChange={onChange}
-                    className={`${error ? "border-[1px] border-red-500" : ""} p-2 border border-primary rounded-3xl w-full`}
+                    className={`${error ? "border-[1px] border-red-500" : ""} flex h-10 w-full rounded-md border border-primary bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`}
                 />
             </div>
         );
@@ -72,7 +72,6 @@ const ValidateInput = ({
 export const Register = () => {
     const validEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
 
-
     const navigate = Route.useNavigate();
 
     const [newUser, setNewUser] = useState<IUser>({
@@ -97,7 +96,7 @@ export const Register = () => {
         if (newUser.password.length < 8) {
             setErrors({
                 ...errors,
-                password: "Пароль должен содержать мин. 8 символов",
+                password: "Мин. 8 символов",
             });
             return false;
         }
@@ -122,98 +121,105 @@ export const Register = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-[90svh]">
-            <Link to="/catalog" className="text-center w-full">На главную</Link>
-            <form onSubmit={async (e) => await handleSubmit(e)}>
-                <Card className="mx-auto max-w-lg w-full">
-                    <CardHeader>
-                        <CardTitle className="text-xl">Регистрация</CardTitle>
-                        <CardDescription>
-                            Введите данные для создания профиля
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="grid gap-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="grid col-span-2">
+        <>
+            <Header />
+            <div className="flex justify-center items-center h-[90svh]">
+                {/* <Link to="/catalog" className="text-center w-full">На главную</Link> */}
+                <form onSubmit={async (e) => await handleSubmit(e)}>
+                    <Card className="mx-auto min-w-3xl w-[600px]">
+                        <CardHeader>
+                            <CardTitle className="text-xl">
+                                Регистрация
+                            </CardTitle>
+                            <CardDescription>
+                                Введите данные для создания профиля
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid gap-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid col-span-2">
+                                        <ValidateInput
+                                            htmlFor="name"
+                                            name="ФИО"
+                                            type="text"
+                                            error={undefined}
+                                            placeholder="Иванов Иван"
+                                            onChange={(e) =>
+                                                setNewUser({
+                                                    ...newUser,
+                                                    name: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid gap-2">
                                     <ValidateInput
-                                        htmlFor="name"
-                                        name="ФИО"
-                                        type="text"
-                                        error={undefined}
-                                        placeholder="Иванов Иван"
+                                        htmlFor="email"
+                                        name="E-mail"
+                                        error={
+                                            emailError ? emailError : undefined
+                                        }
+                                        type="email"
+                                        placeholder="example@example.ru"
                                         onChange={(e) =>
                                             setNewUser({
                                                 ...newUser,
-                                                name: e.target.value,
+                                                email: e.target.value,
                                             })
                                         }
                                     />
                                 </div>
+                                <div className="grid gap-2">
+                                    <ValidateInput
+                                        htmlFor="phone"
+                                        name="Номер телефона"
+                                        error={undefined}
+                                        type="tel"
+                                        mask={true}
+                                        placeholder="+79999999999"
+                                        onChange={(e) =>
+                                            setNewUser({
+                                                ...newUser,
+                                                phone: e.target.value,
+                                            })
+                                        }
+                                    />
+                                </div>
+                                <div className="grid gap-2">
+                                    <ValidateInput
+                                        htmlFor="phone"
+                                        name="Пароль"
+                                        error={
+                                            errors?.password
+                                                ? errors.password
+                                                : undefined
+                                        }
+                                        type="password"
+                                        placeholder=""
+                                        onChange={(e) =>
+                                            setNewUser({
+                                                ...newUser,
+                                                password: e.target.value,
+                                            })
+                                        }
+                                    />
+                                </div>
+                                <Button type="submit" className="w-full">
+                                    Зарегистрироваться
+                                </Button>
                             </div>
-                            <div className="grid gap-2">
-                                <ValidateInput
-                                    htmlFor="email"
-                                    name="E-mail"
-                                    error={emailError ? emailError : undefined}
-                                    type="email"
-                                    placeholder="example@example.ru"
-                                    onChange={(e) =>
-                                        setNewUser({
-                                            ...newUser,
-                                            email: e.target.value,
-                                        })
-                                    }
-                                />
+                            <div className="mt-4 text-center text-sm">
+                                Уже зарегистрированы?{" "}
+                                <Link to="/login" className="underline">
+                                    Войти
+                                </Link>
                             </div>
-                            <div className="grid gap-2">
-                                <ValidateInput
-                                    htmlFor="phone"
-                                    name="Номер телефона"
-                                    error={undefined}
-                                    type="tel"
-                                    mask={true}
-                                    placeholder="+79999999999"
-                                    onChange={(e) =>
-                                        setNewUser({
-                                            ...newUser,
-                                            phone: e.target.value,
-                                        })
-                                    }
-                                />
-                            </div>
-                            <div className="grid gap-2">
-                                <ValidateInput
-                                    htmlFor="phone"
-                                    name="Пароль"
-                                    error={
-                                        errors?.password
-                                            ? errors.password
-                                            : undefined
-                                    }
-                                    type="password"
-                                    placeholder=""
-                                    onChange={(e) =>
-                                        setNewUser({
-                                            ...newUser,
-                                            password: e.target.value,
-                                        })
-                                    }
-                                />
-                            </div>
-                            <Button type="submit" className="w-full">
-                                Зарегистрироваться
-                            </Button>
-                        </div>
-                        <div className="mt-4 text-center text-sm">
-                            Уже зарегистрированы?{" "}
-                            <Link to="/login" className="underline">
-                                Войти
-                            </Link>
-                        </div>
-                    </CardContent>
-                </Card>
-            </form>
-        </div>
+                        </CardContent>
+                    </Card>
+                </form>
+            </div>
+        </>
     );
 };

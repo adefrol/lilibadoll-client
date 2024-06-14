@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { IProductCreate } from "../interfaces/product.interface";
 import { ProductService } from "../service/product.service";
 import { Input } from "./ui/input";
@@ -13,6 +13,7 @@ import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
+import { Textarea } from "./ui/textarea";
 
 export const ProductCreate = () => {
     const [newProduct, setNewProduct] = useState<IProductCreate>();
@@ -49,8 +50,7 @@ export const ProductCreate = () => {
                 </div>
                 <div className="flex gap-2 w-full items-center">
                     Описание
-                    <Input
-                        type="text"
+                    <Textarea
                         onChange={(e) =>
                             setNewProduct({
                                 ...newProduct,

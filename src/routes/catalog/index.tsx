@@ -5,6 +5,7 @@ export type FilterType = {
     category?: string;
     nameSearch?: string;
     max?: number;
+    min?: number;
 };
 
 export const Route = createFileRoute("/catalog/")({
@@ -12,7 +13,8 @@ export const Route = createFileRoute("/catalog/")({
         return {
             category: (search.category as string) || "Все",
             nameSearch: search.nameSearch as string,
-            max: search.max as number
+            max: search.max as number,
+            min: search.min as number,
         };
     },
     component: Catalog,

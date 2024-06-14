@@ -1,4 +1,12 @@
-import { AlignLeft, Filter, Instagram, Search, ShoppingCart, Twitter, User } from "lucide-react";
+import {
+    AlignLeft,
+    Filter,
+    Instagram,
+    Search,
+    ShoppingCart,
+    Twitter,
+    User,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { IProduct } from "../../interfaces/product.interface";
 import { ProductService } from "../../service/product.service";
@@ -6,7 +14,12 @@ import { API_URL } from "../../lib/api_url";
 import { Route } from "../../routes/catalog/index";
 import { useNavigate } from "@tanstack/react-router";
 import { Cart } from "../Cart";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import {
+    Dialog,
+
+    DialogContent,
+    DialogTrigger,
+} from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Filters } from "../Filters";
 import { CartService } from "@/service/cart.service";
@@ -14,11 +27,13 @@ import { toCurrency } from "@/lib/utils";
 import { ProductCarousel } from "../ProductCarousel";
 import { AuthAdmin } from "@/providers/auth";
 import { Link } from "@tanstack/react-router";
+import { Sheet, SheetTrigger } from "../ui/sheet";
+import { SideMenu } from "../SideMenu";
 
 export const Catalog = () => {
     const [products, setProducts] = useState<IProduct[]>();
     const [allProducts, setAllProducts] = useState<IProduct[]>();
-    const { category, nameSearch, max } = Route.useSearch();
+    const { category, nameSearch, max, min } = Route.useSearch();
 
     const navigate = useNavigate({ from: Route.fullPath });
 
@@ -70,6 +85,13 @@ export const Catalog = () => {
                     }
                 });
             }
+            if (min) {
+                filteredProducts = filteredProducts?.filter((product) => {
+                    if (min) {
+                        return Number(product.price) >= min;
+                    }
+                });
+            }
             setProducts(
                 filteredProducts?.sort((a, b) => {
                     return a.id - b.id;
@@ -101,9 +123,16 @@ export const Catalog = () => {
             <div className="p-2 fixed z-10 top-0 max-w-[1400px] bg-white w-full">
                 <div className="flex justify-between">
                     <div className="p-4">
-                        <AlignLeft />
+                        <Sheet>
+                            <SheetTrigger>
+                                <AlignLeft className="hover:scale-105 active:scale-95 hover:text-red-950" />
+                            </SheetTrigger>
+
+                            <SideMenu />
+                        </Sheet>
                     </div>
                     <div className="flex">
+                        <div className=""></div>
                         <div className="flex items-center">
                             <Dialog>
                                 <DialogTrigger>
@@ -195,7 +224,7 @@ export const Catalog = () => {
                                       <p className="font-extrabold text-start text-3xl first-letter:uppercase">
                                           {product.name}
                                       </p>
-                                      <p className="text-start text-sm roboto ">
+                                      <p className="text-start text-sm roboto h-[60px] ">
                                           {product.description}
                                       </p>
                                       <div className="flex gap-1">
