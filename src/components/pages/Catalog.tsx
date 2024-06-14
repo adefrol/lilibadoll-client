@@ -14,12 +14,7 @@ import { API_URL } from "../../lib/api_url";
 import { Route } from "../../routes/catalog/index";
 import { useNavigate } from "@tanstack/react-router";
 import { Cart } from "../Cart";
-import {
-    Dialog,
-
-    DialogContent,
-    DialogTrigger,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Filters } from "../Filters";
 import { CartService } from "@/service/cart.service";
@@ -244,17 +239,17 @@ export const Catalog = () => {
                                           {product.discount ? (
                                               <p className="font-bold text-start text-2xl roboto">
                                                   {toCurrency(
-                                                      Number(
-                                                          Math.round(
+                                                      Math.round(
+                                                          Number(
+                                                              product.price
+                                                          ) -
                                                               Number(
                                                                   product.price
-                                                              ) /
+                                                              ) *
                                                                   (product
                                                                       .discount
                                                                       .discount_value /
-                                                                      100 +
-                                                                      1)
-                                                          )
+                                                                      100)
                                                       )
                                                   )}
                                               </p>

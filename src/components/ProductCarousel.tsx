@@ -64,17 +64,17 @@ export function ProductCarousel({ products }: { products: IProduct[] | [] }) {
                                             {product.discount ? (
                                                 <p className="font-bold text-center text-5xl">
                                                     {toCurrency(
-                                                        Number(
-                                                            Math.round(
+                                                        Math.round(
+                                                            Number(
+                                                                product.price
+                                                            ) -
                                                                 Number(
                                                                     product.price
-                                                                ) /
+                                                                ) *
                                                                     (product
                                                                         .discount
                                                                         .discount_value /
-                                                                        100 +
-                                                                        1)
-                                                            )
+                                                                        100)
                                                         )
                                                     )}
                                                 </p>

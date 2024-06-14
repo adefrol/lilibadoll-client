@@ -124,11 +124,14 @@ export const ProductList = ({ products }: { products: IProduct[] }) => {
                                                     ? Math.round(
                                                           Number(
                                                               product.price
-                                                          ) /
-                                                              (product.discount
-                                                                  .discount_value /
-                                                                  100 +
-                                                                  1)
+                                                          ) -
+                                                              Number(
+                                                                  product.price
+                                                              ) *
+                                                                  (product
+                                                                      .discount
+                                                                      .discount_value /
+                                                                      100)
                                                       )
                                                     : product.price}{" "}
                                                 {"р. "}

@@ -11,9 +11,7 @@ import { ScrollArea } from "./ui/scroll-area";
 export const Cart = () => {
     const [cart, setCart] = useState<ICartProduct[]>();
 
-
     const navigate = Route.useNavigate();
-
 
     useEffect(() => {
         setCart(CartService.getCart());
@@ -25,11 +23,11 @@ export const Cart = () => {
                 return (
                     accumulator +
                     Math.round(
-                        (Number(object.product.price) /
-                            (object.product.discount.discount_value / 100 +
-                                1)) *
-                            object.count
-                    )
+                        Number(object.product.price) -
+                            Number(object.product.price) *
+                                (object.product.discount.discount_value / 100)
+                    ) *
+                        object.count
                 );
             } else {
                 return (
@@ -48,7 +46,11 @@ export const Cart = () => {
                         <h1 className="text-3xl font-extrabold pb-6 pt-2 px-1">
                             Корзина
                         </h1>
-                        <ScrollArea className={cart?.length != 0 ? "h-[550px]" : "h-[50px]"}>
+                        <ScrollArea
+                            className={
+                                cart?.length != 0 ? "h-[550px]" : "h-[50px]"
+                            }
+                        >
                             {cart?.length! > 0 ? (
                                 <div className="flex flex-col gap-5">
                                     {cart?.map((product) => (
@@ -92,22 +94,24 @@ export const Cart = () => {
                                                         .discount ? (
                                                         <p className="font-bold text-start text-2xl roboto">
                                                             {toCurrency(
-                                                                Number(
-                                                                    Math.round(
+                                                                Math.round(
+                                                                    Number(
+                                                                        product
+                                                                            .product
+                                                                            .price
+                                                                    ) -
                                                                         Number(
                                                                             product
                                                                                 .product
                                                                                 .price
-                                                                        ) /
+                                                                        ) *
                                                                             (product
                                                                                 .product
                                                                                 .discount
                                                                                 .discount_value /
-                                                                                100 +
-                                                                                1)
-                                                                    ) *
-                                                                        product.count
-                                                                )
+                                                                                100)
+                                                                ) *
+                                                                    product.count
                                                             )}
                                                         </p>
                                                     ) : (

@@ -32,7 +32,6 @@ export const Checkout = () => {
         payType: "Карта",
     });
 
-
     const [city, setCity] = useState<string>();
     const [address, setAddress] = useState<string>();
     const [index, setIndex] = useState<string>("");
@@ -149,19 +148,19 @@ export const Checkout = () => {
                                     {product.product.discount ? (
                                         <p className="font-bold text-start text-2xl roboto">
                                             {toCurrency(
-                                                Number(
-                                                    Math.round(
+                                                Math.round(
+                                                    Number(
+                                                        product.product.price
+                                                    ) -
                                                         Number(
                                                             product.product
                                                                 .price
-                                                        ) /
+                                                        ) *
                                                             (product.product
                                                                 .discount
                                                                 .discount_value /
-                                                                100 +
-                                                                1)
-                                                    ) * product.count
-                                                )
+                                                                100)
+                                                ) * product.count
                                             )}
                                         </p>
                                     ) : (
@@ -387,11 +386,11 @@ export const Checkout = () => {
                 return (
                     accumulator +
                     Math.round(
-                        (Number(object.product.price) /
-                            (object.product.discount.discount_value / 100 +
-                                1)) *
-                            object.count
-                    )
+                        Number(object.product.price) -
+                            Number(object.product.price) *
+                                (object.product.discount.discount_value / 100)
+                    ) *
+                        object.count
                 );
             } else {
                 return (
@@ -407,19 +406,19 @@ export const Checkout = () => {
     async function handleSubmit() {
         if (!city || !address || !index) {
             toast({
-                variant: 'destructive',
+                variant: "destructive",
                 title: "Проверьте заполнение данных",
-                description: "Адрес не полный!"
-            })
-            return
+                description: "Адрес не полный!",
+            });
+            return;
         }
-        if(payCard.length != 19 || !payCard) {
+        if (payCard.length != 19 || !payCard) {
             toast({
-                variant: 'destructive',
+                variant: "destructive",
                 title: "Проверьте заполнение данных",
-                description: "Неправильный ввод данных банковской карты"
-            })
-            return
+                description: "Неправильный ввод данных банковской карты",
+            });
+            return;
         }
         setLoading(true);
         setActivePath("result");
