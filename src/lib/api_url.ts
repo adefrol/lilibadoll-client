@@ -1,2 +1,3 @@
-export const API_URL =
-    /* "https://lilibadoll.onrender.com" */ /* "https://4396-90-188-245-100.ngrok-free.app" */ "http://localhost:3003";
+export const API_URL = import.meta.env.DEV
+    ? "http://localhost:3003"
+    : "https://lilibadoll.onrender.com";
