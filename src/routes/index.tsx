@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Instagram, Twitter } from "lucide-react";
+import {  Instagram, Twitter } from "lucide-react";
 import { DealHeadling } from "../components/DealHeadling";
 import { OrderForm } from "../components/OrderForm";
 import { API_URL } from "../lib/api_url";
@@ -103,12 +103,12 @@ function Index() {
                         <h1 className="text-primarytext text-center font-extrabold py-5 text-4xl">
                             Примеры работ
                         </h1>
-                        <div className="flex items-center justify-between">
-                            <ChevronLeft width={50} height={50} />
+                        <div className="flex items-center justify-around">
+                            
                             <img src={`${API_URL}/example-2.png`} alt="" />
                             <img src={`${API_URL}/example-1.png`} alt="" />
                             <img src={`${API_URL}/example-3.png`} alt="" />
-                            <ChevronRight width={50} height={50} />
+                            
                         </div>
                         <p className="text-primarytext text-center text-xl py-1">
                             Примечание! Дизайн изделия создается по определенной
