@@ -1,3 +1,3 @@
 export const API_URL = import.meta.env.DEV
     ? "http://localhost:3003"
-    : "https://lilibadoll.onrender.com";
+    : "https://lilibadoll.illumed.ru";
